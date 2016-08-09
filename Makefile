@@ -11,24 +11,21 @@
 ## "gmake library" on FreeBSD computers).
 ##
 
-# targets which don't actually refer to files
-.PHONY: external
+# targets which don't actually refer to files:
+.PHONY: external tests
 .SUFFIXES:
 
 SRCDIR    = .
+INCDIR    = .
 TARGDIR   = .
-SRCS      = hum2ly.cpp
+SRCS      = hum2ly.cpp main.cpp
 TARGET    = hum2ly
-INCDIRS   = -Iexternal/humlib/include 
+INCDIRS   = -I$(INCDIR) -Iexternal/humlib/include 
 LIBDIRS   = -Lexternal/humlib/lib
 HUMLIB    = humlib
 COMPILER  = g++
 PREFLAGS  = -O3 -Wall $(INCDIRS)
 POSTFLAGS = $(LIBDIRS) -l$(HUMLIB)
-
-# Location of guild header and lib:
-INCDIRS  += -I/usr/local/include
-LIBDIRS  += -L/usr/local/lib
 
 # Humlib needs C++11:
 PREFLAGS += -std=c++11
@@ -36,6 +33,7 @@ PREFLAGS += -std=c++11
 all: external targetdir
 	$(COMPILER) $(PREFLAGS) -o $(TARGDIR)/$(TARGET) $(SRCS) $(POSTFLAGS) \
 		&& strip $(TARGDIR)/$(TARGET)
+
 
 targetdir:
 	mkdir -p $(TARGDIR)
@@ -46,9 +44,14 @@ ifeq ($(wildcard external/humlib/lib/libhumlib.a),)
 	(cd external && $(MAKE))
 endif
 
+
+tests:
+	for i in tests/*.krn; do ./hum2ly $$i > tests/`basename $$i .krn`.ly; done
+	(cd tests && for i in *.ly; do lilypond $$i; done)
+
+
 clean:
 	(cd external && $(MAKE) clean)
 	-rm -f hum2ly
-
 
 
