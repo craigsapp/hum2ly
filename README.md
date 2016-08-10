@@ -3,10 +3,14 @@ Humdrum to Lilypond converter
 
 
 
-## Compiling on OS X ##
+## Compiling ##
 
-Guile is required for compiling the code. Install with homebrew with the command:
+To compile the command-line version of hum2ly, type:
+
 ```bash
-	brew install guile
+	make
 ```
+
+This will create the executable `./hum2ly`.
+
 
