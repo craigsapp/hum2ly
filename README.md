@@ -13,10 +13,4 @@ To compile the command-line version of hum2ly, type:
 
 This will create the executable `./hum2ly`.
 
-## Dynamic library ##
-
-```bash
-	make dynamic
-```
-
 
