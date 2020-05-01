@@ -25,7 +25,8 @@ LIBDIRS   = -Lexternal/humlib/lib
 HUMLIB    = humlib
 COMPILER  = g++
 PREFLAGS  = -O3 -Wall $(INCDIRS)
-POSTFLAGS = $(LIBDIRS) -l$(HUMLIB)
+PUGIXML   = pugixml
+POSTFLAGS = $(LIBDIRS) -l$(HUMLIB) -l$(PUGIXML)
 
 # Humlib needs C++11:
 PREFLAGS += -std=c++11
